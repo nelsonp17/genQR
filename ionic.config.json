@@ -1,0 +1,7 @@
+{
+  "name": "genQR",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
