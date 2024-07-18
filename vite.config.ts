@@ -8,7 +8,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     react(),
-    legacy()
+    legacy(),
+    //require('scss-to-css-loader'),
   ],
   test: {
     globals: true,
