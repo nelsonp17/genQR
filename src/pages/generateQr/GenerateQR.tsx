@@ -9,9 +9,12 @@ import {
 } from "@ionic/react";
 import { ArrowLeft } from "@phosphor-icons/react";
 import { Link, RouteComponentProps } from "react-router-dom";
+
 import ClipboardComponent from "./forms/ClipboardComponent";
 import UrlComponent from "./forms/UrlComponent";
 import TextComponent from "./forms/TextComponent";
+import ContactComponent from "./forms/ContactComponent";
+
 import { useState } from "react";
 import { formatDataQR } from '../../utils/Utils'
 
@@ -37,6 +40,8 @@ const GenerateQR: React.FC<GenerateQRPageProps> = ({match}) => {
 				return <UrlComponent onTextChange={handleTextChange}/>;
 			case 'text':
 				return <TextComponent onTextChange={handleTextChange}/>;
+			case 'contact':
+				return <ContactComponent onTextChange={handleTextChange}/>;
 			default:
 				return 'No opearción'
 		}
