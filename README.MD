@@ -23,3 +23,33 @@
 
 
 #https://play.google.com/console/u/1/developers/8118882367239890415/app-list
+
+
+# Ofuscar aplicación de Android, warning Play Console
+Advertencia Este APK contiene código Java o Kotlin, que puede ser ofuscado. Te recomendamos que subas un archivo de desofuscación para facilitar el análisis y la depuración de los errores ANR y bloqueos. Más información
+
+Esto se realiza con la siguiente configuración, principalmente la propiedad minifyEnabled true:
+
+android {
+    buildTypes {
+        release {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            minifyEnabled true
+
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            shrinkResources true
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
+    ...
+}
+
+fuente [https://es.stackoverflow.com/questions/427607/ofuscar-aplicaci%C3%B3n-de-android-warning-play-console](https://es.stackoverflow.com/questions/427607/ofuscar-aplicaci%C3%B3n-de-android-warning-play-console)

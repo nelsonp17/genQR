@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   appId: 'com.nextgeneration.genqr',
   appName: 'Generator QR Master',
   webDir: 'dist',
-  version: '1.0.1',
+  version: '1.1.1',
   minSdkVersion: 26, // android 8 o superior
   loggingBehavior: 'debug', // 'none' | 'debug' | 'production';
   web: {
