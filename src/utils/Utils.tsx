@@ -256,15 +256,12 @@ export const isMobileDevice = async () => {
 
 // guardar (mobile)
 export const writeFile = async (base64:string, nameFile:string) => {
-	try{
-		await Filesystem.writeFile({
-			path: `${nameFile}.png`,
-			data: base64,
-			directory: Directory.Documents,
-		});
-	}catch(e){
-		console.log(`Ocurrio un error ${e}`)
-	}
+	return await Filesystem.writeFile({
+		path: `Generator QR Master/${nameFile}.png`,
+		data: base64,
+		directory: Directory.Documents,
+	});
+
 };
 
 // compartir el QR

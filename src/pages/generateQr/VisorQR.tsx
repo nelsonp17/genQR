@@ -8,12 +8,14 @@ import {
 	IonButton,
     IonSelect,
     IonSelectOption,
+    IonToast,
 } from "@ionic/react";
 import { ArrowLeft, Barcode, PencilSimple, DownloadSimple, ShareNetwork, FloppyDisk} from "@phosphor-icons/react";
 import { tryGenerateQR, ParamsQRious, writeFile, isMobileDevice, downloadImageBase64, shareQrbase64, resizeTextarea } from '../../utils/Utils'
 import { useEffect, useState } from "react";
 import StorageService from '../../utils/StorageService'
 import { useIonRouter } from '@ionic/react';
+import { WriteFileResult } from "@capacitor/filesystem";
 
 const GenerateQR: React.FC = () => {
 
@@ -27,23 +29,25 @@ const GenerateQR: React.FC = () => {
         level: 'H',
         size: 500,
     })
+    const [toast, setToast] = useState({
+		duration: 5000,
+		isOpen: false,
+		message: ''
+	});
 
     const router = useIonRouter();
-    const init = () => {
-        setTimeout(async()=>{
-            // obtener el valor del qr de la base de datos
-            const storage = new StorageService()
-            await storage.create()
-            const _qrString = await storage.get('qr_string')
-            setQrString(_qrString)
-            const nameQrGenerate = await storage.get('name_qr_generate')
-            setNameQR(nameQrGenerate)
-            console.log(nameQrGenerate)
+    const init = async () => {
+        // obtener el valor del qr de la base de datos
+        const storage = new StorageService()
+        await storage.create()
+        const _qrString = await storage.get('qr_string')
+        setQrString(_qrString)
+        const nameQrGenerate = await storage.get('name_qr_generate')
+        setNameQR(nameQrGenerate)
+        console.log(nameQrGenerate)
 
-            handleQR() // generamos el QR
-        }, 50)
+        await handleQR() // generamos el QR
 
-        return <></>
     }
     const handleClickApply = ()=>{
         setCodeQR('')
@@ -59,7 +63,7 @@ const GenerateQR: React.FC = () => {
             setDisableBotton(false)
         }, 500)
     }
-    const handleQR = ()=>{
+    const handleQR = async ()=>{
         // generamos el qr
         const codeQR:ParamsQRious = {value: qrString, level: optionAvanc.level, size: optionAvanc.size}
         const codeReader = tryGenerateQR(codeQR)
@@ -101,7 +105,14 @@ const GenerateQR: React.FC = () => {
     const handleDownload = async () => {
         const isMobile = await isMobileDevice()
         if(isMobile){
-            writeFile(codeQR, nameQR)
+            const writeFileResult:WriteFileResult = await writeFile(codeQR, nameQR)
+            if(writeFileResult.uri != '' || writeFileResult.uri != undefined){
+                setToast((prev) => ({
+                    ...prev,
+                    message: 'Guardado en ' + writeFileResult.uri,
+                    isOpen: true,
+                }))
+            }
         }else{
             downloadImageBase64(codeQR, nameQR)
         }
@@ -109,6 +120,12 @@ const GenerateQR: React.FC = () => {
     const handleShare = async () => {
         shareQrbase64(codeQR, nameQR)
     }
+    useEffect(()=>{
+        const create = async () => {
+            await init()
+        }
+        create()
+    }, [])
     
 	return (
 		<IonPage>
@@ -196,7 +213,9 @@ const GenerateQR: React.FC = () => {
                             value={optionAvanc.size} 
                             onChange={handleChange}
                             className="input-theme"  
-                            placeholder="Tamaño del QR"/>
+                            placeholder="Tamaño del QR"
+                            max={10000}
+                            />
                         </div>
                         <IonButton color={'primary'} onClick={handleClickApply} disabled={disableBotton}>
                             <FloppyDisk size={20} className="mr-2" />
@@ -210,7 +229,23 @@ const GenerateQR: React.FC = () => {
 
                 </div>
                 
-                { init() }
+
+                <IonToast 
+                    isOpen={toast.isOpen}
+                    message={toast.message}
+                    onDidDismiss={() => setToast((prev) => ({
+                        ...prev,
+                        isOpen: false,
+                        }))
+                    }
+                    onClick={() => setToast((prev) => ({
+                        ...prev,
+                        isOpen: false,
+                        }))
+                    }
+                    duration={toast.duration}
+                ></IonToast>
+                
 			</IonContent>
 		</IonPage>
 	);

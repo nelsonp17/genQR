@@ -10,6 +10,7 @@ import { House, QrCode, UploadSimple } from "@phosphor-icons/react";
 import Home from "../pages/Home";
 import ScannerQR from "../pages/ScannerQR";
 import UploadFile from "../pages/UploadFile";
+import Anuncios from "../pages/Anuncios";
 import StorageService from "../utils/StorageService";
 
 
@@ -26,6 +27,7 @@ const App: React.FC<RouteComponentProps> = ({ match }) => {
             <Route path={`${match.url}/tab1`} component={Home}></Route>
             <Route path={`${match.url}/tab2`} component={ScannerQR}></Route>
             <Route path={`${match.url}/tab3`} component={UploadFile}></Route>
+            <Route path={`${match.url}/tab4`} component={Anuncios}></Route>
             
         </IonRouterOutlet>
 
@@ -43,6 +45,11 @@ const App: React.FC<RouteComponentProps> = ({ match }) => {
             <IonTabButton tab="/tabs/tab3" href="/tabs/tab3" onClick={onClickHandle}>
                 <UploadSimple size={32} />
                 <IonLabel>Escanear Archivo</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="/tabs/tab4" href="/tabs/tab4" onClick={onClickHandle}>
+                <UploadSimple size={32} />
+                <IonLabel>Test anuncios</IonLabel>
             </IonTabButton>
         </IonTabBar>
         

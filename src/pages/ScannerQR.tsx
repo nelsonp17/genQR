@@ -11,8 +11,12 @@ import { useState, useRef, useEffect } from "react";
 import { UploadSimple } from "@phosphor-icons/react";
 import OptionQR from "./OptionQR";
 import StorageService from "../utils/StorageService";
+import { AdModeType, InterstitialEventName, Startio } from "../startio/Startio";
+import { AdLoadInfo } from "../startio/events/share";
+
 const ScannerQR: React.FC = () => {
 	const [qrText, setQrText] = useState(""); // State to store scanned data
+	const [text, setText] = useState(""); // State to store scanned data
 	const optionScannerRef = useRef(null);
 
 	const startScan =  async() => {
@@ -21,7 +25,7 @@ const ScannerQR: React.FC = () => {
 			const options:CapacitorBarcodeScannerOptions = {
 				hint: 17,
 				//scanButton: true,
-				scanText: 'Escanear QR',
+				//scanText: 'Escanear QR',
 				android: {
 					scanningLibrary: CapacitorBarcodeScannerAndroidScanningLibrary.MLKIT
 				},

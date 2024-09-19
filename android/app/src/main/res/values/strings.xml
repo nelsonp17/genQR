@@ -4,4 +4,9 @@
     <string name="title_activity_main">Generator QR Master</string>
     <string name="package_name">com.nextgeneration.genqr</string>
     <string name="custom_url_scheme">com.nextgeneration.genqr</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_ads">AdsActivity</string>
+    <string name="title_activity_banner">Banner</string>
 </resources>
